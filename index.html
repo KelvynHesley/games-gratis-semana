@@ -21,49 +21,31 @@
     <main>
       <section class="destaque">
         <h2>Resgates da Semana</h2>
-        <p>
-          Confira os melhores jogos gratuitos disponíveis para PC nesta semana!
-        </p>
+        <p>Confira os melhores jogos gratuitos disponíveis para PC nesta semana!</p>
 
-        <div class="cards-container">
-          <div class="card">
-            <img
-              src="img/freestuff-thumbnail-9a766t5l.png"
-              alt="Turnip Boy Robs a Bank"
-              class="card-img"
-            />
+        <div class="filtros-plataforma" style="margin-top: 20px; display: flex; gap: 10px;">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="Epic Games">Epic Games</button>
+          <button class="filter-btn" data-filter="Steam">Steam</button>
+        </div>
+
+        <div class="cards-container" id="gameCards">
+          <div class="card" data-platform="Epic Games">
+            <img src="img/freestuff-thumbnail-9a766t5l.png" alt="Turnip Boy Robs a Bank" class="card-img" />
             <h3>Turnip Boy Robs a Bank</h3>
             <p>Plataforma: Epic Games</p>
-            <p class="status">Grátis até Quinta-feira</p>
-            <button
-              onclick="
-                window.open(
-                  'https://store.epicgames.com/pt-BR/p/turnip-boy-robs-a-bank-3fae0e',
-                  '_blank',
-                )
-              "
-            >
+            <p class="status">Expira em: <span class="countdown" data-expire="2026-03-20">--:--:--</span></p>
+            <button onclick="window.open('https://store.epicgames.com/pt-BR/p/turnip-boy-robs-a-bank-3fae0e', '_blank')">
               Resgatar Agora
             </button>
           </div>
 
-          <div class="card">
-            <img
-              src="img/freestuff-thumbnail-veppaHgV.png"
-              alt="Deponia"
-              class="card-img"
-            />
+          <div class="card" data-platform="Steam">
+            <img src="img/freestuff-thumbnail-veppaHgV.png" alt="Deponia" class="card-img" />
             <h3>Deponia</h3>
             <p>Plataforma: Steam</p>
             <p class="status">Para sempre na conta</p>
-            <button
-              onclick="
-                window.open(
-                  'https://store.steampowered.com/app/214340/Deponia/',
-                  '_blank',
-                )
-              "
-            >
+            <button onclick="window.open('https://store.steampowered.com/app/214340/Deponia/', '_blank')">
               Resgatar Agora
             </button>
           </div>
@@ -74,5 +56,7 @@
     <footer>
       <p>Desenvolvido como projeto acadêmico | 2026</p>
     </footer>
+
+    <script src="js/index.js"></script>
   </body>
 </html>
