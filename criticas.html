@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Críticas da Mídia - Loot Semanal</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+
+        .game-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 36px;
+            border-bottom: 2px solid #2a2a2a;
+        }
+        .game-tab {
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #888;
+            padding: 12px 28px;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: -2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .game-tab:hover { color: #fff; }
+        .game-tab.active { color: #a56dff; border-bottom-color: #6200ea; }
+
+        .meta-hero {
+            display: flex;
+            gap: 28px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 28px;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+        .meta-cover img {
+            width: 150px;
+            border-radius: 6px;
+            display: block;
+            flex-shrink: 0;
+        }
+        .meta-body { flex-grow: 1; }
+        .meta-title {
+            font-size: 2em;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .meta-sub {
+            color: #666;
+            font-size: 0.82em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 18px;
+        }
+        .meta-scores {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        .metascore-box {
+            width: 72px;
+            height: 72px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+        }
+        .metascore-box .score-num { font-size: 2em; line-height: 1; }
+        .metascore-box .score-lbl { font-size: 0.6em; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.8; margin-top: 3px; }
+        .box-green  { background: #1b5e20; color: #69f0ae; border: 2px solid #2e7d32; }
+        .box-yellow { background: #4a3a00; color: #ffd740; border: 2px solid #f9a825; }
+        .meta-summary {
+            font-size: 0.9em;
+            color: #bbb;
+            line-height: 1.65;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 14px;
+            font-style: italic;
+        }
+
+        .score-dist {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .dist-left { flex-grow: 1; }
+        .dist-left h4 {
+            font-size: 0.78em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #555;
+            margin-bottom: 14px;
+        }
+        .dist-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 7px;
+        }
+        .dist-range { width: 38px; font-size: 0.78em; color: #666; text-align: right; }
+        .dist-track {
+            flex-grow: 1;
+            height: 7px;
+            background: #2a2a2a;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .dist-fill { height: 100%; border-radius: 99px; }
+        .fill-green  { background: #2e7d32; }
+        .fill-yellow { background: #f9a825; }
+        .fill-orange { background: #e65100; }
+        .dist-n { width: 16px; font-size: 0.78em; color: #555; }
+        .dist-right { display: flex; gap: 24px; flex-shrink: 0; }
+        .verdict-chip { text-align: center; }
+        .verdict-chip .vnum { font-family: 'Syne', sans-serif; font-size: 1.5em; font-weight: 800; }
+        .verdict-chip .vlbl { font-size: 0.72em; color: #666; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+        .vnum-green  { color: #69f0ae; }
+        .vnum-yellow { color: #ffd740; }
+        .vnum-red    { color: #ef5350; }
+
+        .ctrl-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .ctrl-bar span { font-size: 0.82em; color: #555; margin-right: 4px; }
+        .ctrl-bar select {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+            color: #ddd;
+            padding: 8px 12px;
+            font-size: 0.85em;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+        }
+
+        .review-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .review-card:hover { border-color: #3a3a3a; }
+
+        .review-header {
+            display: flex;
+            align-items: stretch;
+            border-bottom: 1px solid #222;
+        }
+        .review-score-side {
+            width: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6em;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .side-green  { background: #1b5e20; color: #69f0ae; }
+        .side-yellow { background: #4a3a00; color: #ffd740; }
+        .side-orange { background: #4a1f00; color: #ffab40; }
+
+        .review-meta {
+            flex-grow: 1;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .review-outlet { font-family: 'Syne', sans-serif; font-size: 1em; font-weight: 700; color: #fff; }
+        .review-critic { font-size: 0.82em; color: #888; margin-top: 3px; }
+        .review-date-badge { font-size: 0.75em; color: #555; }
+
+        .review-body { padding: 18px 20px 18px 84px; }
+        .review-excerpt { font-size: 0.92em; line-height: 1.75; color: #bbb; }
+        .review-excerpt em { font-style: italic; color: #ddd; }
+
+        .review-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .review-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .rtag {
+            font-size: 0.72em;
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid #2a2a2a;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .read-link {
+            font-size: 0.78em;
+            color: #6200ea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .read-link:hover { color: #a56dff; }
+
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(12px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .review-card { animation: fadeUp 0.3s ease both; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎮 Loot Semanal</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="avaliacoes.html">Avaliações e Críticas</a></li>
+            <li><a href="criticas.html" class="active">Críticas da Mídia</a></li>
+            <li><a href="opinioes.html">Opiniões da Comunidade</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="destaque">
+        <h2>Críticas da Mídia Especializada</h2>
+        <p style="color:#666; margin-top:6px; margin-bottom:28px; font-size:0.93em;">
+            Extratos das principais publicações internacionais de videogames.
+        </p>
+
+        <div class="game-tabs">
+            <button class="game-tab active" onclick="selectGame('turnip',this)">Turnip Boy Robs a Bank</button>
+            <button class="game-tab" onclick="selectGame('deponia',this)">Deponia</button>
+        </div>
+
+        <!-- TURNIP BOY -->
+        <div id="game-turnip" class="game-section">
+            <div class="meta-hero">
+                <div class="meta-cover">
+                    <img src="img/freestuff-thumbnail-9a766t5l.png" alt="Turnip Boy Robs a Bank">
+                </div>
+                <div class="meta-body">
+                    <div class="meta-title">Turnip Boy Robs a Bank</div>
+                    <div class="meta-sub">PC · Snoozy Mongoose · 2024 · Roguelite / Ação</div>
+                    <div class="meta-scores">
+                        <div class="metascore-box box-yellow">
+                            <span class="score-num">74</span>
+                            <span class="score-lbl">Metascore</span>
+                        </div>
+                        <div style="font-size:0.82em; color:#666; max-width:180px; line-height:1.5;">
+                            Baseado em <strong style="color:#aaa">7 críticas</strong> de veículos especializados
+                        </div>
+                    </div>
+                    <p class="meta-summary">
+                        "Uma sequência que troca os puzzles fiscais pelo caos roguelite — e funciona. <em>Turnip Boy Robs a Bank</em> é breve, barulhento e completamente consciente de que não precisa ser mais do que isso."
+                    </p>
+                </div>
+            </div>
+
+            <div class="score-dist">
+                <div class="dist-left">
+                    <h4>Distribuição de Notas</h4>
+                    <div class="dist-row"><span class="dist-range">90–100</span><div class="dist-track"><div class="dist-fill fill-green" style="width:0%"></div></div><span class="dist-n">0</span></div>
+                    <div class="dist-row"><span class="dist-range">75–89</span><div class="dist-track"><div class="dist-fill fill-green" style="width:43%"></div></div><span class="dist-n">3</span></div>
+                    <div class="dist-row"><span class="dist-range">60–74</span><div class="dist-track"><div class="dist-fill fill-yellow" style="width:57%"></div></div><span class="dist-n">4</span></div>
+                    <div class="dist-row"><span class="dist-range">40–59</span><div class="dist-track"><div class="dist-fill fill-orange" style="width:0%"></div></div><span class="dist-n">0</span></div>
+                    <div class="dist-row"><span class="dist-range">0–39</span><div class="dist-track"><div class="dist-fill fill-orange" style="width:0%"></div></div><span class="dist-n">0</span></div>
+                </div>
+                <div class="dist-right">
+                    <div class="verdict-chip"><div class="vnum vnum-green">3</div><div class="vlbl">Positivas</div></div>
+                    <div class="verdict-chip"><div class="vnum vnum-yellow">4</div><div class="vlbl">Mistas</div></div>
+                    <div class="verdict-chip"><div class="vnum vnum-red">0</div><div class="vlbl">Negativas</div></div>
+                </div>
+            </div>
+
+            <div class="ctrl-bar">
+                <span>Ordenar:</span>
+                <select id="sort-turnip" onchange="renderReviews('turnip')">
+                    <option value="default">Publicação (padrão)</option>
+                    <option value="desc">Maior nota</option>
+                    <option value="asc">Menor nota</option>
+                </select>
+            </div>
+            <div id="reviews-turnip"></div>
+        </div>
+
+        <!-- DEPONIA -->
+        <div id="game-deponia" class="game-section" style="display:none">
+            <div class="meta-hero">
+                <div class="meta-cover">
+                    <img src="img/freestuff-thumbnail-veppaHgV.png" alt="Deponia">
+                </div>
+                <div class="meta-body">
+                    <div class="meta-title">Deponia</div>
+                    <div class="meta-sub">PC · Daedalic Entertainment · 2012 · Aventura / Point-and-Click</div>
+                    <div class="meta-scores">
+                        <div class="metascore-box box-green">
+                            <span class="score-num">79</span>
+                            <span class="score-lbl">Metascore</span>
+                        </div>
+                        <div style="font-size:0.82em; color:#666; max-width:180px; line-height:1.5;">
+                            Baseado em <strong style="color:#aaa">7 críticas</strong> de veículos especializados
+                        </div>
+                    </div>
+                    <p class="meta-summary">
+                        "A Daedalic entrega uma aventura point-and-click de primeira linha: escrita inteligente, personagens marcantes e puzzles que desafiam sem punir. <em>Deponia</em> é o tipo de jogo que faz falta no mercado atual."
+                    </p>
+                </div>
+            </div>
+
+            <div class="score-dist">
+                <div class="dist-left">
+                    <h4>Distribuição de Notas</h4>
+                    <div class="dist-row"><span class="dist-range">90–100</span><div class="dist-track"><div class="dist-fill fill-green" style="width:14%"></div></div><span class="dist-n">1</span></div>
+                    <div class="dist-row"><span class="dist-range">75–89</span><div class="dist-track"><div class="dist-fill fill-green" style="width:71%"></div></div><span class="dist-n">5</span></div>
+                    <div class="dist-row"><span class="dist-range">60–74</span><div class="dist-track"><div class="dist-fill fill-yellow" style="width:14%"></div></div><span class="dist-n">1</span></div>
+                    <div class="dist-row"><span class="dist-range">40–59</span><div class="dist-track"><div class="dist-fill fill-orange" style="width:0%"></div></div><span class="dist-n">0</span></div>
+                    <div class="dist-row"><span class="dist-range">0–39</span><div class="dist-track"><div class="dist-fill fill-orange" style="width:0%"></div></div><span class="dist-n">0</span></div>
+                </div>
+                <div class="dist-right">
+                    <div class="verdict-chip"><div class="vnum vnum-green">6</div><div class="vlbl">Positivas</div></div>
+                    <div class="verdict-chip"><div class="vnum vnum-yellow">1</div><div class="vlbl">Mistas</div></div>
+                    <div class="verdict-chip"><div class="vnum vnum-red">0</div><div class="vlbl">Negativas</div></div>
+                </div>
+            </div>
+
+            <div class="ctrl-bar">
+                <span>Ordenar:</span>
+                <select id="sort-deponia" onchange="renderReviews('deponia')">
+                    <option value="default">Publicação (padrão)</option>
+                    <option value="desc">Maior nota</option>
+                    <option value="asc">Menor nota</option>
+                </select>
+            </div>
+            <div id="reviews-deponia"></div>
+        </div>
+
+    </section>
+</main>
+
+<footer>
+    <p>Desenvolvido como projeto acadêmico | 2026</p>
+</footer>
+
+<script>
+    const reviews = {
+        turnip: [
+            {
+                outlet: "IGN",
+                critic: "Travis Northup",
+                score: 76,
+                date: "22 Jan 2024",
+                excerpt: `Se você entrou esperando a mesma magia contemplativa do primeiro <em>Turnip Boy</em>, pode se surpreender — mas não se desapontar. <em>Robs a Bank</em> é uma virada de chave deliberada para o caos roguelite, e a Snoozy Mongoose executa essa transição com competência acima da média para um estúdio indie. Os runs curtos funcionam bem em sessões rápidas, os chefes têm personalidade e o humor nonsense permanece intacto. O que falta é aquela camada extra de profundidade que separaria um jogo bom de um jogo memorável.`,
+                tags: ["Roguelite", "Ação", "Indie"]
+            },
+            {
+                outlet: "PC Gamer",
+                critic: "Robert Zak",
+                score: 70,
+                date: "22 Jan 2024",
+                excerpt: `<em>Turnip Boy Robs a Bank</em> é exatamente o tipo de jogo que a cena indie precisa: pequeno, focado, consciente dos próprios limites. A apresentação visual é impecável, o ritmo dos assaltos é bem calibrado e o humor funciona do início ao fim. Mas quando o crédito final aparece — e aparece rápido — fica a sensação de que o jogo poderia ter explorado mais seus próprios sistemas. O que existe é bom; o problema é imaginar o que poderia existir.`,
+                tags: ["Curto", "Focado"]
+            },
+            {
+                outlet: "Eurogamer",
+                critic: "Ed Nightingale",
+                score: 80,
+                date: "23 Jan 2024",
+                excerpt: `Há algo genuinamente refrescante em um jogo que sabe exatamente o que é e entrega isso sem hesitação. <em>Turnip Boy Robs a Bank</em> não tenta ser um Hades ou um Dead Cells — e é melhor por isso. A premissa absurda de um nabo assaltando um banco controlado por gangues é o cenário perfeito para um roguelite de entrada acessível, com visuais de cartoon que escondem uma jogabilidade surpreendentemente bem estruturada. Recomendado sem ressalvas para quem busca diversão imediata.`,
+                tags: ["Recomendado", "Acessível"]
+            },
+            {
+                outlet: "GameSpot",
+                critic: "Jessica Howard",
+                score: 65,
+                date: "24 Jan 2024",
+                excerpt: `O charme visual e o humor de <em>Turnip Boy Robs a Bank</em> são inegáveis, mas o jogo acaba revelando suas limitações antes da primeira hora. A variedade de builds é menor do que a apresentação sugere, e a dificuldade raramente apresenta resistência significativa. Para jogadores iniciantes no gênero roguelite, é uma porta de entrada agradável. Para veteranos, pode parecer raso demais para justificar o tempo — mesmo sendo um resgate gratuito.`,
+                tags: ["Iniciantes", "Limitado"]
+            },
+            {
+                outlet: "Destructoid",
+                critic: "Chris Carter",
+                score: 75,
+                date: "22 Jan 2024",
+                excerpt: `A Snoozy Mongoose entende o que torna um roguelite satisfatório: loop de feedback imediato, upgrades que mudam a dinâmica de jogo e um estilo visual coeso que nunca cansa. <em>Robs a Bank</em> tem tudo isso, embrulhado em camadas de humor absurdo que tornam cada run uma experiência diferente — mesmo quando o resultado é previsível. Não vai disputar espaço com os gigantes do gênero, mas merece um lugar especial nas tardes de sexta.`,
+                tags: ["Loop Sólido", "Divertido"]
+            },
+            {
+                outlet: "Rock Paper Shotgun",
+                critic: "Brendan Caldwell",
+                score: 72,
+                date: "25 Jan 2024",
+                excerpt: `Há uma leveza proposital em <em>Turnip Boy Robs a Bank</em> que tanto é seu maior trunfo quanto sua principal limitação. A Snoozy Mongoose claramente optou por acessibilidade em detrimento de profundidade — uma escolha válida, mas que pode frustrar quem espera mais de um roguelite. O que salva é a consistência da execução: cada elemento do jogo parece ter sido construído com intenção, e isso conta muito no mercado indie saturado de hoje.`,
+                tags: ["Acessível", "Consistente"]
+            },
+            {
+                outlet: "Giant Bomb",
+                critic: "Jeff Bakalar",
+                score: 80,
+                date: "23 Jan 2024",
+                excerpt: `Poucos jogos conseguem ser simultaneamente tão tontos e tão competentes quanto <em>Turnip Boy Robs a Bank</em>. O conceito é completamente absurdo — e o jogo abraça isso com total comprometimento. A cada run, há algo novo para descobrir: uma combinação de upgrades inesperada, um chefe que subverte expectativas ou um detalhe de cenário que prova que a equipe se divertiu fazendo o jogo. Essa energia contagia, e é difícil largar antes de zerar.`,
+                tags: ["Criativo", "Energético"]
+            }
+        ],
+        deponia: [
+            {
+                outlet: "Adventure Gamers",
+                critic: "Jack Allin",
+                score: 90,
+                date: "9 Ago 2012",
+                excerpt: `Raras vezes um jogo de aventura estreia com tanta confiança quanto <em>Deponia</em>. A Daedalic construiu um universo coeso, visualmente deslumbrante e narrativamente rico — com um protagonista, Rufus, que desafia convenções ao ser ao mesmo tempo irritante, cômico e inesperadamente cativante. Os puzzles são inventivos sem cruzar a linha da obscuridade, e a dublagem alemã — com tradução impecável — eleva a imersão. Uma obra de referência para o gênero.`,
+                tags: ["Obra de Referência", "Point-and-Click"]
+            },
+            {
+                outlet: "IGN",
+                critic: "Leif Johnson",
+                score: 78,
+                date: "5 Jun 2013",
+                excerpt: `<em>Deponia</em> faz o que poucos jogos de aventura modernos conseguem: respeita a inteligência do jogador. Os puzzles exigem atenção genuína ao ambiente e aos diálogos, e a sensação de resolução quando tudo se encaixa é gratificante de forma clássica. O mundo visual é rico em detalhes que recompensam a exploração, e a escrita tem aquele timing cômico afiado que é difícil de acertar. Rufus pode testar a paciência, mas é justamente essa imperfeição que o torna memorável.`,
+                tags: ["Puzzle", "Narrativa"]
+            },
+            {
+                outlet: "GameStar",
+                critic: "Heiko Klinge",
+                score: 82,
+                date: "10 Jul 2012",
+                excerpt: `A Daedalic Entertainment prova com <em>Deponia</em> que o point-and-click clássico não apenas sobreviveu — ele evoluiu. A direção de arte é extraordinária: cada tela do planeta-lixo parece um quadro pintado à mão, com uma atenção ao detalhe que humilha produções com orçamentos muito maiores. A narrativa equilibra comédia e drama com habilidade rara, e os puzzles têm uma lógica interna consistente que torna a progressão natural. Um dos melhores do gênero em anos.`,
+                tags: ["Arte", "Evolução do Gênero"]
+            },
+            {
+                outlet: "Eurogamer",
+                critic: "Keza MacDonald",
+                score: 80,
+                date: "1 Jun 2013",
+                excerpt: `Existe uma generosidade em <em>Deponia</em> que é rara nos jogos de aventura contemporâneos: o jogo quer que você progrida, quer que você ria, quer que você se importe com seus personagens — e consegue tudo isso com destreza. Rufus é uma criação notável: um protagonista egocêntrico e impulsivo que, paradoxalmente, você torce para que dê certo. O humor é europeu no melhor sentido — seco, referencial e nunca condescendente. Merece ser descoberto por uma nova geração de jogadores.`,
+                tags: ["Humor", "Personagens"]
+            },
+            {
+                outlet: "PC Gamer",
+                critic: "Tom Senior",
+                score: 76,
+                date: "14 Jun 2013",
+                excerpt: `<em>Deponia</em> é um jogo que exige que você entre no seu ritmo — e recompensa quem o faz. A narrativa tem aquele equilíbrio raro entre humor e coração que os melhores aventuras LucasArts tinham, e a Daedalic demonstra um domínio maduro do gênero. Alguns puzzles podem frustrar pela lógica não-convencional, e o ritmo da segunda metade cai ligeiramente, mas o conjunto é sólido o suficiente para recomendar sem reservas a qualquer fã de aventura clássica.`,
+                tags: ["Clássico", "LucasArts-Like"]
+            },
+            {
+                outlet: "GameSpot",
+                critic: "Kevin VanOrd",
+                score: 80,
+                date: "7 Jun 2013",
+                excerpt: `Existem poucos gêneros que dependem tanto da escrita quanto o point-and-click, e <em>Deponia</em> acerta nesse quesito de forma consistente. Os diálogos têm timing, os personagens secundários têm profundidade inesperada e o worldbuilding do planeta-lixo é elaborado com uma criatividade que mantém a curiosidade do jogador durante toda a jornada. A produção visual é de primeira classe para um título independente. Um argumento forte de que o gênero ainda tem muito a oferecer.`,
+                tags: ["Escrita", "Worldbuilding"]
+            },
+            {
+                outlet: "Destructoid",
+                critic: "Jim Sterling",
+                score: 65,
+                date: "6 Jun 2013",
+                excerpt: `<em>Deponia</em> tem qualidades inegáveis — o universo é inventivo, a arte é bonita e os melhores momentos da escrita são genuinamente engraçados. Mas Rufus, como protagonista, pode ser exaustivo de um jeito que vai além do cômico intencional. Alguns puzzles também pecam pela falta de coerência lógica, recorrendo ao inventário de tentativa e erro que o gênero deveria ter superado. Um bom jogo com arestas que poderiam ter sido aparadas.`,
+                tags: ["Com Ressalvas", "Puzzle Frustrante"]
+            }
+        ]
+    };
+
+    function sideClass(score) {
+        if (score >= 75) return 'side-green';
+        if (score >= 60) return 'side-yellow';
+        return 'side-orange';
+    }
+
+    function renderReviews(game) {
+        const sort = document.getElementById(`sort-${game}`).value;
+        let lista = [...reviews[game]];
+        if (sort === 'desc') lista.sort((a,b) => b.score - a.score);
+        if (sort === 'asc')  lista.sort((a,b) => a.score - b.score);
+
+        const container = document.getElementById(`reviews-${game}`);
+        container.innerHTML = '';
+        lista.forEach((r, i) => {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            card.style.animationDelay = `${i * 0.05}s`;
+            card.innerHTML = `
+          <div class="review-header">
+            <div class="review-score-side ${sideClass(r.score)}">${r.score}</div>
+            <div class="review-meta">
+              <div>
+                <div class="review-outlet">${r.outlet}</div>
+                <div class="review-critic">${r.critic}</div>
+              </div>
+              <div class="review-date-badge">${r.date}</div>
+            </div>
+          </div>
+          <div class="review-body">
+            <p class="review-excerpt">${r.excerpt}</p>
+            <div class="review-footer-row">
+              <div class="review-tags">${r.tags.map(t=>`<span class="rtag">${t}</span>`).join('')}</div>
+              <a href="#" class="read-link" onclick="return false">Leia a crítica completa ↗</a>
+            </div>
+          </div>
+        `;
+            container.appendChild(card);
+        });
+    }
+
+    function selectGame(game, btn) {
+        document.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.game-section').forEach(s => s.style.display = 'none');
+        document.getElementById(`game-${game}`).style.display = 'block';
+        renderReviews(game);
+    }
+
+    renderReviews('turnip');
+</script>
+</body>
+</html>
