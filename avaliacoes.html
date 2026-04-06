@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avaliações - Rotten Tomatoes Style</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>🎮 Loot Semanal</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="avaliacoes.html" class="active">Avaliações e Críticas</a></li>
+          <li><a href="opinioes.html">Opiniões da Comunidade</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+    <section class="destaque">
+        <h2>Consenso da Crítica</h2>
+
+        <div class="controles" style="margin-bottom: 20px; display: flex; gap: 15px;">
+        <input type="text" id="searchInput" placeholder="Buscar jogo..." style="padding: 10px; border-radius: 4px; border: 1px solid #333; background: #1f1f1f; color: white; flex-grow: 1;">
+        
+        <select id="sortSelect" style="padding: 10px; border-radius: 4px; border: 1px solid #333; background: #1f1f1f; color: white;">
+            <option value="default">Ordenar por...</option>
+            <option value="tomatometer">Maior Tomatometer</option>
+            <option value="audience">Maior Audience Score</option>
+        </select>
+        </div>
+
+        <div id="gamesGrid">
+        <div class="rt-container" data-name="Turnip Boy Robs a Bank" data-tomatometer="78" data-audience="85" style="display: flex; gap: 30px; background-color: #1f1f1f; padding: 20px; border-radius: 8px; margin-bottom: 40px; align-items: flex-start;">
+            <div class="rt-poster" style="flex-shrink: 0;">
+            <img src="img/freestuff-thumbnail-9a766t5l.png" alt="Turnip Boy" style="width: 220px; border-radius: 8px;">
+            </div>
+            <div class="rt-info" style="flex-grow: 1; text-align: left;">
+            <h3 style="font-size: 2.2em; margin-bottom: 15px;">Turnip Boy Robs a Bank</h3>
+            
+            <div class="rt-scores" style="display: flex; gap: 40px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
+                <div>
+                <span style="font-size: 2em; font-weight: bold; color: #fa320a;">🍅 78%</span>
+                <p style="color: #b3b3b3; font-size: 0.8em; font-weight: bold;">TOMATOMETER</p>
+                </div>
+                <div>
+                <span style="font-size: 2em; font-weight: bold; color: #00e676;">🍿 85%</span>
+                <p style="color: #b3b3b3; font-size: 0.8em; font-weight: bold;">AUDIENCE SCORE</p>
+                </div>
+            </div>
+
+            <div class="tabs-buttons" style="margin-bottom: 15px;">
+                <button onclick="switchTab(this, 'consenso')" class="tab-btn active" style="background: none; border-bottom: 2px solid #6200ea; border-radius: 0;">Consenso</button>
+                <button onclick="switchTab(this, 'reviews')" class="tab-btn" style="background: none; color: #b3b3b3;">Críticas</button>
+            </div>
+
+            <div class="tab-content consensus-content">
+                <p><em>Turnip Boy Robs a Bank</em> foca em uma ação roguelite caótica e divertida.</p>
+            </div>
+            
+            <div class="tab-content reviews-content" style="display: none;">
+                <p style="font-style: italic;">"Uma sequência que acerta em cheio na diversão." - John Doe</p>
+            </div>
+            </div>
+        </div>
+
+        <div class="rt-container" data-name="Deponia" data-tomatometer="68" data-audience="90" style="display: flex; gap: 30px; background-color: #1f1f1f; padding: 20px; border-radius: 8px; margin-bottom: 40px; align-items: flex-start;">
+            <div class="rt-poster" style="flex-shrink: 0;">
+            <img src="img/freestuff-thumbnail-veppaHgV.png" alt="Deponia" style="width: 220px; border-radius: 8px;">
+            </div>
+            <div class="rt-info" style="flex-grow: 1; text-align: left;">
+            <h3 style="font-size: 2.2em; margin-bottom: 15px;">Deponia</h3>
+            
+            <div class="rt-scores" style="display: flex; gap: 40px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
+                <div>
+                <span style="font-size: 2em; font-weight: bold; color: #fa320a;">🍅 68%</span>
+                <p style="color: #b3b3b3; font-size: 0.8em; font-weight: bold;">TOMATOMETER</p>
+                </div>
+                <div>
+                <span style="font-size: 2em; font-weight: bold; color: #00e676;">🍿 90%</span>
+                <p style="color: #b3b3b3; font-size: 0.8em; font-weight: bold;">AUDIENCE SCORE</p>
+                </div>
+            </div>
+
+            <div class="tabs-buttons" style="margin-bottom: 15px;">
+                <button onclick="switchTab(this, 'consenso')" class="tab-btn active" style="background: none; border-bottom: 2px solid #6200ea; border-radius: 0;">Consenso</button>
+                <button onclick="switchTab(this, 'reviews')" class="tab-btn" style="background: none; color: #b3b3b3;">Críticas</button>
+            </div>
+
+            <div class="tab-content consensus-content">
+                <p><em>Deponia</em> é uma carta de amor aos clássicos point-and-click.</p>
+            </div>
+            
+            <div class="tab-content reviews-content" style="display: none;">
+                <p style="font-style: italic;">"A Daedalic Entertainment prova que o gênero ainda tem vida." - Carlos Silva</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    </main>
+    <footer>
+      <p>Desenvolvido como projeto acadêmico | 2026</p>
+    </footer>
+    <script src="js/avaliacoes.js"></script>
+  </body>
+</html>
